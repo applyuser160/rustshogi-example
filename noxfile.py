@@ -1,0 +1,30 @@
+import nox
+import os
+import glob
+
+
+@nox.session(
+    venv_backend="uv",
+    python=["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"],
+    tags=["all-tests"],
+)
+def tests(session):
+    session.run("uv", "sync", "--dev")
+
+    rustshogi_dir = os.path.abspath("../mctsshogirust")
+    with session.chdir(rustshogi_dir):
+        python_executable = os.path.join(session.bin, "python.exe")
+        session.run("uvx", "maturin", "build", "-i", python_executable)
+
+    python_version = session.python.replace(".", "")
+    wheel_pattern = f"../mctsshogirust/target/wheels/rustshogi-*-cp{python_version}-cp{python_version}-*.whl"
+    wheel_files = glob.glob(wheel_pattern)
+    if wheel_files:
+        latest_wheel = max(wheel_files, key=lambda x: os.path.getctime(x))
+        session.run("uv", "pip", "install", latest_wheel)
+    else:
+        session.error(f"No wheel files found for Python {session.python}")
+
+    session.env["PYTHONPATH"] = "."
+    args = session.posargs or ["tests"]
+    session.run("uv", "run", "--dev", "pytest", *args)
