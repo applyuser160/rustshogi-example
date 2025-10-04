@@ -10,6 +10,7 @@ import glob
 )
 def tests(session):
     session.run("uv", "sync", "--dev")
+    session.run("uv", "pip", "install", "pytest")
 
     rustshogi_dir = os.path.abspath("../mctsshogirust")
     with session.chdir(rustshogi_dir):
@@ -27,4 +28,4 @@ def tests(session):
 
     session.env["PYTHONPATH"] = "."
     args = session.posargs or ["tests"]
-    session.run("uv", "run", "--dev", "pytest", *args)
+    session.run("python", "-m", "pytest", *args)
