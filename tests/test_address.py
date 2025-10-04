@@ -10,4 +10,5 @@ class TestAddress:
         assert address.column == 2
         assert address.row == 5
         assert address.to_int() == 57
-        assert address.__repr__() == "rustshogi.Address(2e)"
+        assert address.__repr__() == "Address(column=2, row=5)"
+        assert address.__str__() == "Address(column=2, row=5)"
