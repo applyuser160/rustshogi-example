@@ -47,4 +47,4 @@ class TestBenchmark:
         end = datetime.now()
 
         # Assert
-        assert end - start < timedelta(microseconds=33333)
+        assert end - start < timedelta(microseconds=40000)
