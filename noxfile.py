@@ -12,7 +12,7 @@ def tests(session):
     session.run("uv", "sync", "--dev")
     session.run("uv", "pip", "install", "pytest", "pytest-benchmark")
 
-    rustshogi_dir = os.path.abspath("../mctsshogirust")
+    rustshogi_dir = os.path.abspath("../rustshogi")
     with session.chdir(rustshogi_dir):
         python_executable = os.path.join(session.bin, "python.exe")
         session.run(
@@ -20,7 +20,7 @@ def tests(session):
         )
 
     python_version = session.python.replace(".", "")
-    wheel_pattern = f"../mctsshogirust/target/wheels/rustshogi-*-cp{python_version}-cp{python_version}-*.whl"
+    wheel_pattern = f"../rustshogi/target/wheels/rustshogi-*-cp{python_version}-cp{python_version}-*.whl"
     wheel_files = glob.glob(wheel_pattern)
     if wheel_files:
         latest_wheel = max(wheel_files, key=lambda x: os.path.getctime(x))
