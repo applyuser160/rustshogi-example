@@ -13,9 +13,12 @@ class TestGame:
         # 結果が空でないことを確認
         assert len(results) > 0
 
-        # 各結果の総ゲーム数がnumと一致することを確認
+        # 全体の総ゲーム数がnumと一致することを確認
+        total_games = sum(result.total_games for result in results)
+        assert total_games == num
+
+        # 各結果の妥当性を確認
         for result in results:
-            assert result.total_games == num
             # 白と黒の勝利数の合計が総ゲーム数以下であることを確認
             assert result.white_wins + result.black_wins <= result.total_games
 
