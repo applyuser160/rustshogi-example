@@ -9,11 +9,11 @@ class TestBoard:
         # Assert
         assert (
             board.__repr__()
-            == "Board(sfen=lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL)"
+            == "Board(sfen=lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL -)"
         )
         assert (
             board.__str__()
-            == "Board(sfen=lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL)"
+            == "Board(sfen=lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL -)"
         )
         assert board.get_piece(Address(1, 1)) == Piece(ColorType.Black, PieceType.Lance)
         assert board.get_piece(Address(2, 1)) == Piece(
