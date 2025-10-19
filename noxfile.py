@@ -31,3 +31,30 @@ def tests(session):
     session.env["PYTHONPATH"] = "."
     args = session.posargs or ["tests"]
     session.run("python", "-m", "pytest", *args)
+
+
+@nox.session(
+    venv_backend="uv",
+    python=["3.12"],
+    tags=["evaluator"],
+)
+def evaluator(session):
+    session.run("uv", "sync", "--dev")
+    rustshogi_dir = os.path.abspath("../rustshogi")
+    with session.chdir(rustshogi_dir):
+        python_executable = os.path.join(session.bin, "python.exe")
+        session.run(
+            "uvx", "maturin", "build", "--release", "--locked", "-i", python_executable
+        )
+
+    python_version = session.python.replace(".", "")
+    wheel_pattern = f"../rustshogi/target/wheels/rustshogi-*-cp{python_version}-cp{python_version}-*.whl"
+    wheel_files = glob.glob(wheel_pattern)
+    if wheel_files:
+        latest_wheel = max(wheel_files, key=lambda x: os.path.getctime(x))
+        session.run("uv", "pip", "install", latest_wheel)
+    else:
+        session.error(f"No wheel files found for Python {session.python}")
+
+    session.env["PYTHONPATH"] = "."
+    session.run("python", "src/evaluator.py")
