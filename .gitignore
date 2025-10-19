@@ -4,4 +4,4 @@
 __pycache__/
 .nox/
 .venv/
-*model.bin
+*.bin
