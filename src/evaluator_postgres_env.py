@@ -75,7 +75,7 @@ def main():
     # 4. ランダム対局を実行して勝利数を更新
     print("5. ランダム対局を実行中...")
     try:
-        updated_count = evaluator.update_records_with_random_games(100, 50, 8)
+        updated_count = evaluator.update_records_with_random_games(100, 50, 8, 8)
         print(f"   ✅ 更新されたレコード数: {updated_count}")
     except Exception as e:
         print(f"   ❌ 対局実行エラー: {e}")

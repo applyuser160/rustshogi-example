@@ -47,7 +47,7 @@ def run_trials(games_per_record=100, max_records=None):
 
     try:
         updated_count = evaluator.update_records_with_random_games(
-            games_per_record, max_records, 8
+            games_per_record, max_records, 4, 4
         )
         print(f"   ✅ 更新されたレコード数: {updated_count}")
         return True
