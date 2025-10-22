@@ -92,7 +92,7 @@ def generate_boards(session):
 
 @nox.session(
     venv_backend="uv",
-    python=["3.12"],
+    python=["3.13"],
     tags=["run_trials"],
 )
 def run_trials(session):

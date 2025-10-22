@@ -51,6 +51,9 @@ nox -s run_trials
 # カスタム設定で対局実行
 nox -s run_trials -- --games-per-record 200 --max-records 100
 
+# バッチ繰り返し実行（5回繰り返し、各バッチ間に2分のインターバル）
+nox -s run_trials -- --repeat-count 5 --interval-minutes 2
+
 # モデル訓練（デフォルト設定）
 nox -s train_model
 
@@ -76,6 +79,7 @@ nox -s evaluator
 # 個別スクリプトを直接実行
 python src/generate_boards.py --count 300
 python src/run_trials.py --games-per-record 150 --max-records 30
+python src/run_trials.py --repeat-count 3 --interval-minutes 5 --games-per-record 100
 python src/train_model.py --min-games 30 --num-epochs 15
 python src/evaluate_position.py --model-path "my_model.bin"
 ```
@@ -89,6 +93,8 @@ python src/evaluate_position.py --model-path "my_model.bin"
 2. **試行実行** (`run_trials.py`)
    - 保存された盤面に対してランダム対局を実行
    - 勝利数を更新
+   - バッチ繰り返し機能：指定回数だけ処理を繰り返し実行
+   - インターバル機能：各バッチ間に指定時間の待機
 
 3. **モデル訓練** (`train_model.py`)
    - 学習データを取得
@@ -107,6 +113,8 @@ python src/evaluate_position.py --model-path "my_model.bin"
 ### run_trials.py
 - `--games-per-record`: レコードあたりのゲーム数（デフォルト: 100）
 - `--max-records`: 最大更新レコード数（指定しない場合は全レコード）
+- `--repeat-count`: バッチの繰り返し回数（デフォルト: 1）
+- `--interval-minutes`: バッチ間のインターバル時間（分）（デフォルト: 2）
 
 ### train_model.py
 - `--min-games`: 最小ゲーム数（デフォルト: 20）
@@ -119,9 +127,33 @@ python src/evaluate_position.py --model-path "my_model.bin"
 - `--model-path`: モデルファイルパス（デフォルト: model.bin）
 - `--board-sfen`: 評価する盤面のSFEN（指定しない場合は初期局面）
 
+## バッチ繰り返し機能の詳細
+
+`run_trials.py`のバッチ繰り返し機能により、長時間の処理を自動化できます：
+
+### 機能概要
+- **繰り返し実行**: 指定した回数だけバッチ処理を繰り返し
+- **インターバル**: 各バッチ間に指定時間の待機（システム負荷軽減）
+- **進捗表示**: 各バッチの開始・完了時刻、残り時間を表示
+- **エラー処理**: 個別バッチでエラーが発生しても次のバッチに進む
+- **統計情報**: 成功バッチ数、総更新レコード数、実行時間を表示
+
+### 使用例
+```bash
+# 10回繰り返し、各バッチ間に3分のインターバル
+python src/run_trials.py --repeat-count 10 --interval-minutes 3
+
+# 5回繰り返し、インターバルなし（連続実行）
+python src/run_trials.py --repeat-count 5 --interval-minutes 0
+
+# 3回繰り返し、レコードあたり50ゲーム、最大20レコード
+python src/run_trials.py --repeat-count 3 --games-per-record 50 --max-records 20
+```
+
 ## 注意事項
 
 - PostgreSQLサーバーが起動していることを確認してください
 - 環境変数で接続設定が正しく設定されていることを確認してください
 - 各処理は依存関係があるため、順序を守って実行してください：
   1. 盤面生成 → 2. 試行実行 → 3. モデル訓練 → 4. 推論実行
+- バッチ繰り返し実行時は、長時間の処理になる可能性があるため、適切なインターバルを設定してください

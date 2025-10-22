@@ -36,6 +36,20 @@ class TestBenchmark:
         # ベンチマーク実行
         benchmark.pedantic(run_single_game, rounds=10)
 
+    def test_random_move_parlallel(self):
+        # Arrange
+        start = datetime.now()
+
+        # Act
+        game: Game = Game()
+        results = game.random_move(num=10000, threads=8)
+        end = datetime.now()
+
+        # Assert
+        assert len(results) == 30
+        assert sum([result.total_games for result in results]) == 10000
+        assert end - start < timedelta(seconds=1)
+
     def test_benchmark(self):
         # Arrange
         start = datetime.now()
