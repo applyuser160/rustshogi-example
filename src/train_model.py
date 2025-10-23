@@ -16,7 +16,7 @@ from evaluator_utils import create_evaluator, check_environment, print_connectio
 def train_model(
     min_games=20,
     learning_rate=0.001,
-    batch_size=32,
+    batch_size=128,
     num_epochs=10,
     model_save_path="model.bin",
 ):
@@ -96,7 +96,7 @@ def main():
         "--learning-rate", type=float, default=0.001, help="学習率 (デフォルト: 0.001)"
     )
     parser.add_argument(
-        "--batch-size", type=int, default=32, help="バッチサイズ (デフォルト: 32)"
+        "--batch-size", type=int, default=128, help="バッチサイズ (デフォルト: 128)"
     )
     parser.add_argument(
         "--num-epochs", type=int, default=10, help="エポック数 (デフォルト: 10)"

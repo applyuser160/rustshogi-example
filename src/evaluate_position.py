@@ -51,7 +51,7 @@ def evaluate_position(model_path="model.bin", board_sfen=None):
         board = Board()
         print("   📋 初期局面を使用")
 
-    print(f"   📋 盤面SFEN: {board.to_string()}")
+    print(f"   📋 盤面SFEN: {board}")
 
     # モデルファイルの存在確認
     if not os.path.exists(model_path):
