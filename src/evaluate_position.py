@@ -42,7 +42,7 @@ def evaluate_position(model_path="model.bin", board_sfen=None):
     print("🎯 評価対象の盤面を準備中...")
     if board_sfen:
         try:
-            board = Board.from_sfen(board_sfen)
+            board = Board(board_sfen)
             print(f"   📋 指定されたSFEN: {board_sfen}")
         except Exception as e:
             print(f"   ❌ SFEN解析エラー: {e}")
