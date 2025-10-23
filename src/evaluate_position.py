@@ -16,19 +16,19 @@ from rustshogi import Board
 
 def evaluate_position(model_path="model.bin", board_sfen=None):
     """任意の盤面で評価関数を実行"""
-    print("rustshogi Evaluator 推論処理")
-    print("=" * 50)
+    print("🚀 rustshogi Evaluator 推論処理")
+    print("=" * 60)
 
     check_environment()
     print()
     print_connection_info()
 
     # PostgreSQL Evaluatorインスタンスを作成
-    print("\n2. PostgreSQL Evaluatorインスタンスを作成中...")
+    print("\n📦 PostgreSQL Evaluatorインスタンスを作成中...")
     evaluator = create_evaluator()
 
     # PostgreSQLデータベースを初期化
-    print("3. PostgreSQLデータベースを初期化中...")
+    print("🔧 PostgreSQLデータベースを初期化中...")
     try:
         evaluator.init_database()
         print("   ✅ PostgreSQLデータベースの初期化が完了しました")
@@ -39,7 +39,7 @@ def evaluate_position(model_path="model.bin", board_sfen=None):
         return False
 
     # 盤面を準備
-    print("4. 評価対象の盤面を準備中...")
+    print("🎯 評価対象の盤面を準備中...")
     if board_sfen:
         try:
             board = Board.from_sfen(board_sfen)
@@ -60,16 +60,16 @@ def evaluate_position(model_path="model.bin", board_sfen=None):
         return False
 
     # 評価関数を実行
-    print("5. 評価関数を実行中...")
-    print(f"   モデルパス: {model_path}")
+    print("🧠 評価関数を実行中...")
+    print(f"   📁 モデルパス: {model_path}")
 
     try:
-        white_win_rate, black_win_rate, total_games = evaluator.evaluate_position(
+        white_win_rate, black_win_rate, draw_rate = evaluator.evaluate_position(
             board, model_path
         )
         print(f"   🎯 白の勝率予測: {white_win_rate:.3f}")
         print(f"   🎯 黒の勝率予測: {black_win_rate:.3f}")
-        print(f"   🎯 総ゲーム数予測: {total_games:.1f}")
+        print(f"   🎯 引き分け率予測: {draw_rate:.3f}")
         return True
     except Exception as e:
         print(f"   ❌ 評価関数実行エラー: {e}")
@@ -80,14 +80,14 @@ def main():
     """メイン処理"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="評価関数を実行")
+    parser = argparse.ArgumentParser(description="🧠 rustshogi 評価関数を実行")
     parser.add_argument(
         "--model-path",
         default="model.bin",
-        help="モデルファイルパス (デフォルト: model.bin)",
+        help="📁 モデルファイルパス (デフォルト: model.bin)",
     )
     parser.add_argument(
-        "--board-sfen", help="評価する盤面のSFEN (指定しない場合は初期局面)"
+        "--board-sfen", help="🎯 評価する盤面のSFEN (指定しない場合は初期局面)"
     )
 
     args = parser.parse_args()
