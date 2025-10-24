@@ -19,6 +19,7 @@ def train_model(
     batch_size=128,
     num_epochs=10,
     model_save_path="model.bin",
+    max_samples=None,
 ):
     """モデルを訓練"""
     print("rustshogi Evaluator 学習処理")
@@ -68,15 +69,26 @@ def train_model(
     print(f"   バッチサイズ: {batch_size}")
     print(f"   エポック数: {num_epochs}")
     print(f"   モデル保存パス: {model_save_path}")
+    print(f"   最大サンプル数: {max_samples if max_samples else '全データ'}")
 
     try:
-        evaluator.train_model(
-            min_games=min_games,
-            learning_rate=learning_rate,
-            batch_size=batch_size,
-            num_epochs=num_epochs,
-            model_save_path=model_save_path,
-        )
+        if max_samples is not None:
+            evaluator.train_model_with_sampling(
+                min_games=min_games,
+                learning_rate=learning_rate,
+                batch_size=batch_size,
+                num_epochs=num_epochs,
+                model_save_path=model_save_path,
+                max_samples=max_samples,
+            )
+        else:
+            evaluator.train_model(
+                min_games=min_games,
+                learning_rate=learning_rate,
+                batch_size=batch_size,
+                num_epochs=num_epochs,
+                model_save_path=model_save_path,
+            )
         print("   ✅ モデル訓練が完了しました")
         return True
     except Exception as e:
@@ -106,6 +118,12 @@ def main():
         default="model.bin",
         help="モデル保存パス (デフォルト: model.bin)",
     )
+    parser.add_argument(
+        "--max-samples",
+        type=int,
+        default=None,
+        help="最大サンプル数 (デフォルト: 全データ)",
+    )
 
     args = parser.parse_args()
 
@@ -115,6 +133,7 @@ def main():
         batch_size=args.batch_size,
         num_epochs=args.num_epochs,
         model_save_path=args.model_save_path,
+        max_samples=args.max_samples,
     )
 
     if success:

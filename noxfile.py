@@ -151,6 +151,8 @@ def train_model(session):
         "10",
         "--model-save-path",
         "model.bin",
+        "--max-samples",
+        "5000",
     ]
     session.run("python", "src/train_model.py", *args)
 
