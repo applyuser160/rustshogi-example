@@ -89,7 +89,7 @@ def run_trials_batch(
         try:
             # 単一バッチを実行
             updated_count = evaluator.update_records_with_random_games(
-                games_per_record, max_records, 4
+                games_per_record, max_records, 8
             )
             total_updated_count += updated_count
             successful_batches += 1
