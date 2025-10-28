@@ -6,7 +6,7 @@ rustshogi Evaluator ユーティリティ関数
 """
 
 import os
-from rustshogi import Evaluator
+from rustshogi import NeuralEvaluator
 
 
 def get_postgres_connection_string():
@@ -30,7 +30,7 @@ def get_postgres_connection_string():
 def create_evaluator():
     """PostgreSQL Evaluatorインスタンスを作成"""
     connection_string = get_postgres_connection_string()
-    return Evaluator("postgres", connection_string)
+    return NeuralEvaluator("postgres", connection_string)
 
 
 def check_environment():
