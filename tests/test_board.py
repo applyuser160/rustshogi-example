@@ -34,7 +34,7 @@ class TestBoard:
         assert board.get_piece(Address(9, 1)) == Piece(ColorType.Black, PieceType.Lance)
         assert board.get_piece(Address(8, 2)) == Piece(ColorType.Black, PieceType.Rook)
         assert board.get_piece(Address(2, 2)) == Piece(
-            ColorType.Black, PieceType.Bichop
+            ColorType.Black, PieceType.Bishop
         )
         assert board.get_piece(Address(1, 3)) == Piece(ColorType.Black, PieceType.Pawn)
         assert board.get_piece(Address(2, 3)) == Piece(ColorType.Black, PieceType.Pawn)
@@ -64,7 +64,7 @@ class TestBoard:
         )
         assert board.get_piece(Address(9, 9)) == Piece(ColorType.White, PieceType.Lance)
         assert board.get_piece(Address(8, 8)) == Piece(
-            ColorType.White, PieceType.Bichop
+            ColorType.White, PieceType.Bishop
         )
         assert board.get_piece(Address(2, 8)) == Piece(ColorType.White, PieceType.Rook)
         assert board.get_piece(Address(1, 7)) == Piece(ColorType.White, PieceType.Pawn)

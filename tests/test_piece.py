@@ -9,7 +9,7 @@ class TestPiece:
             (1, PieceType.King),
             (2, PieceType.Gold),
             (3, PieceType.Rook),
-            (4, PieceType.Bichop),
+            (4, PieceType.Bishop),
             (5, PieceType.Silver),
             (6, PieceType.Knight),
             (7, PieceType.Lance),
